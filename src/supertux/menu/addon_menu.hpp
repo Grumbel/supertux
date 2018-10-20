@@ -41,7 +41,7 @@ private:
   bool m_auto_install_langpack;
 
 public:
-  AddonMenu(bool language_pack_mode = false, bool auto_install_langpack = false);
+  AddonMenu(bool auto_install_langpack = false);
   ~AddonMenu();
 
   void refresh() override;

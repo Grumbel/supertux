@@ -118,7 +118,7 @@ MenuStorage::create(MenuId menu_id)
       return std::unique_ptr<Menu>(new AddonMenu);
 
     case LANGPACK_MENU:
-      return std::unique_ptr<Menu>(new AddonMenu(true));
+      return std::unique_ptr<Menu>(new AddonMenu);
 
     case EDITOR_LEVELSET_SELECT_MENU:
       return std::unique_ptr<Menu>(new EditorLevelsetSelectMenu);
@@ -127,7 +127,7 @@ MenuStorage::create(MenuId menu_id)
       return std::unique_ptr<Menu>(new EditorNewLevelsetMenu);
 
     case LANGPACK_AUTO_UPDATE_MENU:
-      return std::unique_ptr<Menu>(new AddonMenu(true, true));
+      return std::unique_ptr<Menu>(new AddonMenu(true));
 
     case EDITOR_LEVEL_SELECT_MENU:
       return std::unique_ptr<Menu>(new EditorLevelSelectMenu);

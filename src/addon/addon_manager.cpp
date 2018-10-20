@@ -725,7 +725,7 @@ AddonManager::check_for_langpack_updates()
     check_online();
     try
     {
-      const std::string& addon_id = "langpack-" + language;
+      const std::string& addon_id = "language-pack";
       log_debug << "Looking for language addon with ID " << addon_id << "..." << std::endl;
       Addon& langpack = get_repository_addon(addon_id);
 
