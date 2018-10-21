@@ -37,7 +37,6 @@ private:
   std::vector<std::string> m_installed_addons;
   std::vector<std::string> m_repository_addons;
   std::unique_ptr<bool[]> m_addons_enabled;
-  bool m_language_pack_mode;
   bool m_auto_install_langpack;
 
 public:
