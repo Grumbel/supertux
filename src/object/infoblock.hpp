@@ -48,13 +48,17 @@ protected:
   Player* get_nearest_player() const;
 
 protected:
-  std::string message;
-  //AmbientSound* ringing;
-  //bool stopped;
-  float shown_pct; /**< Value in the range of 0..1, depending on how much of the infobox is currently shown */
-  float dest_pct; /**< With each call to update(), shown_pct will slowly transition to this value */
-  std::vector<std::unique_ptr<InfoBoxLine> > lines; /**< lines of text (or images) to display */
-  float lines_height;
+  std::string m_message;
+  //AmbientSound* m_ringing;
+  //bool m_stopped;
+  float m_shown_pct; /**< Value in the range of 0..1, depending on how much of the infobox is currently shown */
+  float m_dest_pct; /**< With each call to update(), shown_pct will slowly transition to this value */
+  std::vector<std::unique_ptr<InfoBoxLine> > m_lines; /**< lines of text (or images) to display */
+  float m_lines_height;
+
+private:
+  InfoBlock(const InfoBlock&) = delete;
+  InfoBlock& operator=(const InfoBlock&) = delete;
 };
 
 #endif

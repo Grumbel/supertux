@@ -42,6 +42,10 @@ protected:
 
 private:
   bool visible;
+
+private:
+  InvisibleBlock(const InvisibleBlock&) = delete;
+  InvisibleBlock& operator=(const InvisibleBlock&) = delete;
 };
 
 #endif

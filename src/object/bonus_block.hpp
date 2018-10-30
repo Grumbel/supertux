@@ -78,8 +78,6 @@ private:
   Contents m_contents;
   std::unique_ptr<MovingObject> m_object;
   int m_hit_counter;
-
-private:
   std::string m_script;
   SurfacePtr m_lightsprite;
 

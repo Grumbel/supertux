@@ -39,8 +39,12 @@ protected:
   virtual void hit(Player& player) override;
 
 private:
-  bool breakable;
-  int coin_counter;
+  bool m_breakable;
+  int m_coin_counter;
+
+private:
+  Brick(const Brick&) = delete;
+  Brick& operator=(const Brick&) = delete;
 };
 
 #endif
