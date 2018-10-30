@@ -30,12 +30,14 @@
 Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
                      const Vector& initial_velocity, const Vector& acceleration, int number,
                      Color color_, int size_, float life_time, int drawing_layer_) :
+  m_epicenter(epicenter),
   accel(acceleration),
   timer(),
   live_forever(),
   color(color_),
   size(static_cast<float>(size_)),
   drawing_layer(drawing_layer_),
+  m_x_accel(0.0f),
   particles()
 {
   if(life_time == 0) {
@@ -66,16 +68,28 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
 Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
                      const float min_initial_velocity, const float max_initial_velocity,
                      const Vector& acceleration, int number, Color color_,
-                     int size_, float life_time, int drawing_layer_) :
-
+                     int size_, float life_time, int drawing_layer_,
+                     float gravity, float x_accel) :
+  m_epicenter(epicenter),
   accel(acceleration),
   timer(),
   live_forever(),
   color(color_),
   size(static_cast<float>(size_)),
   drawing_layer(drawing_layer_),
+  m_x_accel(x_accel),
   particles()
 {
+  /* join  the gravity into the acceleration values
+   doing it separately so that the components are easy to see
+   if preferred, the constructor can be used with them combined, since
+   the gravity and x_linear_accel have default values of 0.
+
+   Can't join the x linear velocity since that's going to use
+   trigonmetry to vary it based on the center.
+  */
+  accel.y += gravity;
+
   if(life_time == 0) {
     live_forever = true;
   } else {
@@ -115,6 +129,10 @@ Particles::update(float dt_sec)
     (*i)->vel.x += accel.x * dt_sec;
     (*i)->vel.y += accel.y * dt_sec;
 
+    // update the particle's velocity with the x_accel based on position
+    // to do this, the current angle between the particle and the epicenter must be calculated for each particle.
+    (*i)->vel.x += m_x_accel * cos(angle((*i)->pos)) * elapsed_time;
+
     if((*i)->pos.x < camera.x || (*i)->pos.x > static_cast<float>(SCREEN_WIDTH) + camera.x ||
        (*i)->pos.y < camera.y || (*i)->pos.y > static_cast<float>(SCREEN_HEIGHT) + camera.y) {
       i = particles.erase(i);
@@ -130,10 +148,23 @@ Particles::update(float dt_sec)
 void
 Particles::draw(DrawingContext& context)
 {
+  float particle_size = 1.0f / timer.get_timegone();
+  if(particle_size > size)
+  {
+    particle_size = size;
+  }
   // draw particles
   for(auto& particle : particles) {
-    context.color().draw_filled_rect(particle->pos, Vector(size,size), color, drawing_layer);
+    context.color().draw_filled_rect(particle->pos, Vector(particle_size, particle_size), color, drawing_layer);
   }
+}
+
+float
+Particles::angle(Vector &pos)
+{
+  float dot_product = m_epicenter * pos;
+  float lengths = m_epicenter.norm() * pos.norm();
+  return (dot_product / lengths); 
 }
 
 /* EOF */
